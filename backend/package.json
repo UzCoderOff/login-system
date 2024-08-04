@@ -4,7 +4,7 @@
   "main": "index.js",
   "scripts": {
     "build": "babel src --out-dir dist --ignore node_modules",
-    "dev": "nodemon index.js"
+    "dev": "nodemon ./src/index.js"
   },
   "keywords": [],
   "author": "",
