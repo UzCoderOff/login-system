@@ -2,7 +2,14 @@ require("dotenv").config();
 const express = require("express");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const pool = require("./db");
+const { Pool } = require("pg");
+
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL, // Use DATABASE_URL for PostgreSQL connection string
+  ssl: {
+    rejectUnauthorized: false,
+  },
+});
 
 const app = express();
 app.use(express.json());
@@ -31,7 +38,7 @@ app.get("/users", authenticateToken, async (req, res) => {
     const result = await pool.query("SELECT email FROM users");
     res.json(result.rows);
   } catch (error) {
-    console.log(error);
+    console.log("Error fetching users:", error);
     res.status(500).send();
   }
 });
@@ -56,7 +63,7 @@ app.post("/login", async (req, res) => {
     });
     res.json({ message: "Logged in successfully", token });
   } catch (error) {
-    console.log(error);
+    console.log("Error during login:", error);
     res.status(500).send();
   }
 });
@@ -80,7 +87,7 @@ app.post("/signup", async (req, res) => {
     ]);
     res.status(201).json({ message: "User registered successfully" });
   } catch (error) {
-    console.log(error);
+    console.log("Error during signup:", error);
     res.status(500).send();
   }
 });
