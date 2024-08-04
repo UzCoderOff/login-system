@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "build": "babel . --out-dir dist --ignore node_modules",
+    "build": "./node_modules/.bin/babel . --out-dir dist --ignore node_modules",
     "dev": "nodemon index.js"
   },
   "keywords": [],
